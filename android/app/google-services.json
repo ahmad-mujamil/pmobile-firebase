@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "648038397100",
+    "project_id": "mobile3-firebase",
+    "storage_bucket": "mobile3-firebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:648038397100:android:1f79628f08d1c68f781b09",
+        "android_client_info": {
+          "package_name": "com.example.mob3_jamil_002_uts_xt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbzOjqSM4JX5XUZ5e79M92MzrvXBv3R0Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:648038397100:android:f6ee392fdafff16d781b09",
+        "android_client_info": {
+          "package_name": "com.x_jamil_002.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbzOjqSM4JX5XUZ5e79M92MzrvXBv3R0Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
