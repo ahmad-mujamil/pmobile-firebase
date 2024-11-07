@@ -17,11 +17,13 @@ class _AddUserPageState extends State<AddUserPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _namaController = TextEditingController();
-
+  bool isPassword = true;
+  
   Future<void> _addUser() async {
     final email = _emailController.text.trim();
     final nama = _namaController.text.trim();
     final password = _passwordController.text.trim();
+
 
     try {
       // Membuat user baru di Firebase Authentication
@@ -91,7 +93,14 @@ class _AddUserPageState extends State<AddUserPage> {
             CustomTextInput(labelText: 'Email', hintText: 'Email User', icon: Icons.mail, controller: _emailController),
             
             SizedBox(height: 30),
-            CustomTextInput(labelText: 'Password', hintText: 'Password', icon: Icons.key, controller: _passwordController,isObscure: true,),
+            CustomTextInput(labelText: 'Password', hintText: 'Masukan Password', icon: Icons.lock,
+            isObscure: isPassword, 
+            controller: _passwordController, showPassword: () {
+              setState(() {
+                isPassword = !isPassword;
+              });
+            },),
+
           
             SizedBox(height: 40),
             GradientButton(

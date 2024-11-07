@@ -11,6 +11,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  bool isPassword = true;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -71,11 +72,16 @@ class _LoginPageState extends State<LoginPage> {
             ),
             SizedBox(height: 30),
             // TextField untuk email
-            CustomTextInput(labelText: 'Email', hintText: 'Masukan Email', icon: Icons.email, controller: _emailController
-            ,),
+            CustomTextInput(labelText: 'Email', hintText: 'Masukan Email', icon: Icons.email, controller: _emailController),
             SizedBox(height: 16),
             // TextField untuk password
-            CustomTextInput(labelText: 'Password', hintText: 'Masukan Password', icon: Icons.lock,isObscure: true, controller: _passwordController,),
+            CustomTextInput(labelText: 'Password', hintText: 'Masukan Password', icon: Icons.lock,
+            isObscure: isPassword, 
+            controller: _passwordController, showPassword: () {
+              setState(() {
+                isPassword = !isPassword;
+              });
+            },),
             
             SizedBox(height: 30),
             // Tombol Login lebar

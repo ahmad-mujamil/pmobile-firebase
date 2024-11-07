@@ -7,6 +7,7 @@ class CustomTextInput extends StatelessWidget {
   final TextInputType keyboardType;
   final bool isObscure;
   final TextEditingController controller;
+  final VoidCallback? showPassword;
 
   // Constructor with dynamic variables
   CustomTextInput({
@@ -16,6 +17,7 @@ class CustomTextInput extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     this.isObscure = false,
     required this.controller,
+    this.showPassword,
   });
 
   @override
@@ -33,13 +35,10 @@ class CustomTextInput extends StatelessWidget {
         // Dynamic icon
         prefixIcon: Icon(icon, color: Colors.blueAccent),
 
-        // Clear icon
-        // suffixIcon: IconButton(
-        //   icon: Icon(Icons.clear, color: Colors.grey),
-        //   onPressed: () {
-        //     // Implement clear functionality if needed
-        //   },
-        // ),
+        suffixIcon: ((showPassword != null) ? IconButton(
+          icon: Icon((isObscure) ? Icons.visibility_off : Icons.visibility, color: Colors.grey),
+          onPressed:showPassword
+        ) : null),
 
         // Border and fill styles
         enabledBorder: OutlineInputBorder(
