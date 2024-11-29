@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mob3_jamil_002_uts_xt/component/delete_data.dart';
+import 'package:mob3_jamil_002_uts_xt/edit_user';
 
 class CustomListView extends StatelessWidget {
   final List<Map<String, dynamic>> items;  // Accepting dynamic data
@@ -26,6 +27,9 @@ class CustomListView extends StatelessWidget {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             subtitle: Text(item['email']),
+            onTap: () { 
+              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>EditPage(docId:item["docid"].toString())));
+              } ,
             leading: Icon(
               item['icon'],
               color: Colors.blueAccent,
@@ -39,6 +43,7 @@ class CustomListView extends StatelessWidget {
                                     )
                                   : null
           ),
+          
         );
       },
     );

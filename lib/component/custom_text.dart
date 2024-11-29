@@ -58,5 +58,6 @@ class CustomTextInput extends StatelessWidget {
       cursorColor: Colors.blueAccent,
       textInputAction: TextInputAction.done,
     );
-  }
+  } 
+  
 }

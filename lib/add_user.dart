@@ -17,11 +17,13 @@ class _AddUserPageState extends State<AddUserPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _namaController = TextEditingController();
+  final TextEditingController _nimController = TextEditingController();
   bool isPassword = true;
   
   Future<void> _addUser() async {
     final email = _emailController.text.trim();
     final nama = _namaController.text.trim();
+    final nim = _nimController.text.trim();
     final password = _passwordController.text.trim();
 
 
@@ -34,6 +36,7 @@ class _AddUserPageState extends State<AddUserPage> {
 
       // Simpan data user di Firestore
       await _firestore.collection('users').add({
+        'nim': nim,
         'nama': nama,
         'email': email,
         'createdAt': Timestamp.now(),
@@ -65,6 +68,7 @@ class _AddUserPageState extends State<AddUserPage> {
 
   @override
   void dispose() {
+    _nimController.dispose();
     _emailController.dispose();
     _namaController.dispose();
     _passwordController.dispose();
@@ -87,6 +91,8 @@ class _AddUserPageState extends State<AddUserPage> {
               size: 100,
               color: Colors.blue,
             ),
+            SizedBox(height: 30),
+            CustomTextInput(labelText: 'NIM', hintText: 'Nim User', icon: Icons.numbers, controller: _nimController),
             SizedBox(height: 30),
             CustomTextInput(labelText: 'Nama', hintText: 'Nama User', icon: Icons.person, controller: _namaController),
             SizedBox(height: 30),

@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mob3_jamil_002_uts_xt/component/custom_text.dart';
+import 'package:mob3_jamil_002_uts_xt/component/divider.dart';
 import 'package:mob3_jamil_002_uts_xt/component/gradient_button.dart';
 import 'package:mob3_jamil_002_uts_xt/home.dart';
+import 'package:mob3_jamil_002_uts_xt/register.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -88,6 +90,17 @@ class _LoginPageState extends State<LoginPage> {
             GradientButton(
               onPressed: _login,
               text: "Login",
+            ),
+            SizedBox(height: 30),
+            TextDivider(text: "Belum punya akun ?"),
+            SizedBox(height: 20),
+            GradientButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=> RegisterPage()));
+              },
+              text: "Register Here",
+              colorStart: Colors.purple,
+              colorEnd: Colors.indigo,
             ),
           ],
         ),
