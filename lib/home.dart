@@ -17,7 +17,8 @@ class HomePage extends StatelessWidget {
       if (userDoc.exists) {
         return [
                 userDoc.data()?["role"],
-                userDoc.data()?["nama"]
+                userDoc.data()?["nama"],
+                userDoc.data()?["is_verified"]
               ];
       }
     } catch (e) {
@@ -36,8 +37,9 @@ class HomePage extends StatelessWidget {
       );
     }
 
-    // final String email = user.email ?? "No Email";
+    final String email = user.email ?? "No Email";
     final String userId = user.uid;
+  
 
 
 
@@ -56,6 +58,7 @@ class HomePage extends StatelessWidget {
 
         final role = snapshot.data![0];
         final nama = snapshot.data![1];
+        final isVerified = snapshot.data![2];
 
         return Scaffold(
           appBar: AppBar(
@@ -84,6 +87,14 @@ class HomePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                Text(
+                  "Welcome Back!",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 20),
                 Card(
                   elevation: 4,
                   shape: RoundedRectangleBorder(
@@ -91,19 +102,34 @@ class HomePage extends StatelessWidget {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: Column(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween, // Membuat jarak antara elemen
                       children: [
-                        Text(
-                          "Selamat Datang!",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                        // Kanan: Nama dan Email
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "$nama",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: 8),
+                              Text(
+                                "$email",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ],
                           ),
                         ),
-                        SizedBox(height: 8),
-                        Text(
-                          "$nama",
-                          style: TextStyle(fontSize: 16),
+
+                        Icon(
+                          isVerified ? Icons.check_circle : Icons.cancel, // Ganti ikon berdasarkan is_verified
+                          color: isVerified ? Colors.blue : Colors.red,  // Warna biru jika verified, merah jika tidak
+                          size: 30,  // Ukuran ikon
                         ),
                       ],
                     ),
@@ -187,8 +213,7 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                 ],
-
-                Divider(),
+                SizedBox(height: 10),
                 Text(
                   "Cerpen List",
                   style: TextStyle(

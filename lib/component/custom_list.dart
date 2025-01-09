@@ -15,7 +15,7 @@ class CustomListView extends StatelessWidget {
         var item = items[index];  // Retrieve dynamic data for each item
         return Card(
           elevation: 5,
-          margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+          margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
