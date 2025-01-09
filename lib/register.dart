@@ -17,7 +17,6 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _namaController = TextEditingController();
-  final TextEditingController _nimController = TextEditingController();
   bool isPassword = true;
 
   bool _isLoading = false;
@@ -37,10 +36,12 @@ class _RegisterPageState extends State<RegisterPage> {
 
         // Save user data to Firestore
         await _firestore.collection('users').doc(userCredential.user!.uid).set({
-          'nim': _nimController.text.trim(),
+        
           'nama': _namaController.text.trim(),
           'email': _emailController.text.trim(),
           'createdAt': FieldValue.serverTimestamp(),
+          'is_verified' : false,
+          'role' : 'user'
         });
 
       
@@ -81,8 +82,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 size: 100,
                 color: Colors.blue,
               ),
-              SizedBox(height: 30),
-              CustomTextInput(labelText: 'NIM', hintText: 'Nim User', icon: Icons.numbers, controller: _nimController),
+            
               SizedBox(height: 30),
               CustomTextInput(labelText: 'Nama', hintText: 'Nama User', icon: Icons.person, controller: _namaController),
               SizedBox(height: 30),

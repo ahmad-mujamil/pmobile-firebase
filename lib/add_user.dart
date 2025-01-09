@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:mob3_jamil_002_uts_xt/component/custom_dropdown.dart';
 import 'package:mob3_jamil_002_uts_xt/component/custom_text.dart';
+import 'package:mob3_jamil_002_uts_xt/component/custom_toggle.dart';
 import 'package:mob3_jamil_002_uts_xt/component/gradient_button.dart';
 import 'home.dart';
 
@@ -17,15 +19,15 @@ class _AddUserPageState extends State<AddUserPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _namaController = TextEditingController();
-  final TextEditingController _nimController = TextEditingController();
+
   bool isPassword = true;
+  bool _isVerified = false; 
+  String _selectedRole = 'user';
   
   Future<void> _addUser() async {
     final email = _emailController.text.trim();
     final nama = _namaController.text.trim();
-    final nim = _nimController.text.trim();
     final password = _passwordController.text.trim();
-
 
     try {
       // Membuat user baru di Firebase Authentication
@@ -36,10 +38,12 @@ class _AddUserPageState extends State<AddUserPage> {
 
       // Simpan data user di Firestore
       await _firestore.collection('users').add({
-        'nim': nim,
+  
         'nama': nama,
         'email': email,
         'createdAt': Timestamp.now(),
+        'is_verified': _isVerified,
+        'role': _selectedRole,
       });
 
     
@@ -68,7 +72,7 @@ class _AddUserPageState extends State<AddUserPage> {
 
   @override
   void dispose() {
-    _nimController.dispose();
+  
     _emailController.dispose();
     _namaController.dispose();
     _passwordController.dispose();
@@ -91,8 +95,7 @@ class _AddUserPageState extends State<AddUserPage> {
               size: 100,
               color: Colors.blue,
             ),
-            SizedBox(height: 30),
-            CustomTextInput(labelText: 'NIM', hintText: 'Nim User', icon: Icons.numbers, controller: _nimController),
+          
             SizedBox(height: 30),
             CustomTextInput(labelText: 'Nama', hintText: 'Nama User', icon: Icons.person, controller: _namaController),
             SizedBox(height: 30),
@@ -106,8 +109,30 @@ class _AddUserPageState extends State<AddUserPage> {
                 isPassword = !isPassword;
               });
             },),
-
-          
+            SizedBox(height: 30),
+            CustomDropdown(
+              labelText: "Role",
+              value: _selectedRole,
+              items: [
+                DropdownMenuItem(value: "user", child: Text("User")),
+                DropdownMenuItem(value: "admin", child: Text("Admin")),
+              ],
+              onChanged: (value) {
+                setState(() {
+                  _selectedRole = value!;
+                });
+              },
+            ),
+            SizedBox(height: 30),
+            CustomToggle(
+              label: "Is Verified",
+              value: _isVerified,
+              onChanged: (value) {
+                setState(() {
+                  _isVerified = value;
+                });
+              },
+            ),
             SizedBox(height: 40),
             GradientButton(
               onPressed: _addUser,

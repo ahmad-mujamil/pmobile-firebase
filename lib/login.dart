@@ -74,10 +74,10 @@ class _LoginPageState extends State<LoginPage> {
             ),
             SizedBox(height: 30),
             // TextField untuk email
-            CustomTextInput(labelText: 'Email', hintText: 'Masukan Email', icon: Icons.email, controller: _emailController),
+            CustomTextInput(labelText: 'Email', hintText: 'Masukan Email', icon: Icons.email, controller: _emailController,maxLines: 1,),
             SizedBox(height: 16),
             // TextField untuk password
-            CustomTextInput(labelText: 'Password', hintText: 'Masukan Password', icon: Icons.lock,
+            CustomTextInput(labelText: 'Password', hintText: 'Masukan Password', icon: Icons.lock, maxLines: 1,
             isObscure: isPassword, 
             controller: _passwordController, showPassword: () {
               setState(() {

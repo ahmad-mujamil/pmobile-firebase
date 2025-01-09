@@ -8,6 +8,8 @@ class CustomTextInput extends StatelessWidget {
   final bool isObscure;
   final TextEditingController controller;
   final VoidCallback? showPassword;
+  final int? maxLines;
+  final bool isExpand;
 
   // Constructor with dynamic variables
   CustomTextInput({
@@ -18,6 +20,9 @@ class CustomTextInput extends StatelessWidget {
     this.isObscure = false,
     required this.controller,
     this.showPassword,
+    this.isExpand = false,
+    this.maxLines = 1,
+    
   });
 
   @override
@@ -26,6 +31,9 @@ class CustomTextInput extends StatelessWidget {
       controller: controller,
       obscureText: isObscure,
       keyboardType: keyboardType,
+      maxLines: maxLines,
+      expands: isExpand,
+      
       decoration: InputDecoration(
         labelText: labelText,
         labelStyle: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold),
