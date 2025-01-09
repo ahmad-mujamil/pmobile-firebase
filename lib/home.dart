@@ -5,6 +5,7 @@ import 'package:mob3_jamil_002_uts_xt/add_cerpen.dart';
 import 'package:mob3_jamil_002_uts_xt/add_user.dart';
 import 'package:mob3_jamil_002_uts_xt/component/custom_list.dart';
 import 'package:mob3_jamil_002_uts_xt/login.dart';
+import 'package:mob3_jamil_002_uts_xt/unverify_user.dart';
 
 class HomePage extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -125,7 +126,7 @@ class HomePage extends StatelessWidget {
                             ),
                             child: InkWell(
                               onTap: () {
-                                _addUser(context);
+                                _viewUnverifiedUser(context);
                               },
                               borderRadius: BorderRadius.circular(12),
                               child: Padding(
@@ -232,9 +233,9 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  void _addUser(BuildContext context) {
+  void _viewUnverifiedUser(BuildContext context) {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => AddUserPage()),
+      MaterialPageRoute(builder: (context) => UnverifiedUsersPage()),
     );
   }
 

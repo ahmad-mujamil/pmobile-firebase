@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mob3_jamil_002_uts_xt/component/custom_dropdown.dart';
 import 'package:mob3_jamil_002_uts_xt/component/custom_text.dart';
+import 'package:mob3_jamil_002_uts_xt/component/custom_toggle.dart';
 import 'package:mob3_jamil_002_uts_xt/component/gradient_button.dart';
 
 class EditPage extends StatefulWidget {
@@ -15,21 +17,19 @@ class EditPage extends StatefulWidget {
 class _EditPageState extends State<EditPage> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final _formKey = GlobalKey<FormState>();
-
-  late TextEditingController _nimController;
   late TextEditingController _namaController;
   late TextEditingController _emailController;
-  late TextEditingController _passwordController;
   bool _isLoading = false;
-  bool isPassword = true;
+
+  bool _isVerified = false;
+  String _selectedRole = 'user';
 
   @override
   void initState() {
     super.initState();
-    _nimController = TextEditingController();
+
     _namaController = TextEditingController();
     _emailController = TextEditingController();
-    _passwordController = TextEditingController();
     _loadUserData();
   }
 
@@ -41,10 +41,10 @@ class _EditPageState extends State<EditPage> {
       print(userDoc.data()); 
       if (userDoc.exists) {
         var userData = userDoc.data() as Map<String, dynamic>;
-        _nimController.text = userData['nim'] ?? '';
+      
         _namaController.text = userData['nama'] ?? '';
         _emailController.text = userData['email'] ?? '';
-        _passwordController.text = '';
+        _selectedRole = userData['role'] ?? 'user';
       
       }
     } catch (e) {
@@ -61,19 +61,19 @@ class _EditPageState extends State<EditPage> {
       });
       try {
         await _firestore.collection('users').doc(widget.docId).update({
-          'nim': _nimController.text,
+          'is_verified': _isVerified,
+          'role' : _selectedRole,
           'nama': _namaController.text,
           'email': _emailController.text,
-          'password': _passwordController.text,
         });
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("User information updated successfully")),
+          SnackBar(content: Text("User berhasil diverifikasi")),
         );
         Navigator.of(context).pop(); // Kembali ke halaman sebelumnya
       } catch (e) {
         print("Error saving changes: $e");
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Failed to update user information")),
+          SnackBar(content: Text("Gagal Verirfikasi User")),
         );
       } finally {
         setState(() {
@@ -85,10 +85,8 @@ class _EditPageState extends State<EditPage> {
 
   @override
   void dispose() {
-    _nimController.dispose();
     _namaController.dispose();
     _emailController.dispose();
-    _passwordController.dispose();
     super.dispose();
   }
 
@@ -96,7 +94,7 @@ class _EditPageState extends State<EditPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("EDIT USER",style: TextStyle(fontWeight: FontWeight.bold),),
+        title: Text("VERIFY USER",style: TextStyle(fontWeight: FontWeight.bold),),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -109,30 +107,44 @@ class _EditPageState extends State<EditPage> {
                 size: 100,
                 color: Colors.blue,
               ),
-              SizedBox(height: 30),
-              CustomTextInput(labelText: 'NIM', hintText: 'Nim User', icon: Icons.numbers, controller: _nimController),
+              
               SizedBox(height: 30),
               CustomTextInput(labelText: 'Nama', hintText: 'Nama User', icon: Icons.person, controller: _namaController),
               SizedBox(height: 30),
               CustomTextInput(labelText: 'Email', hintText: 'Email User', icon: Icons.mail, controller: _emailController),
               
               SizedBox(height: 30),
-              CustomTextInput(labelText: 'Password', hintText: 'Masukan Password', icon: Icons.lock,
-              isObscure: isPassword, 
-              controller: _passwordController, showPassword: () {
-                setState(() {
-                  isPassword = !isPassword;
-                });
-              },),
-          
-              SizedBox(height: 40),
-              _isLoading ? Center(child: CircularProgressIndicator())
-                : GradientButton(
-                  onPressed: _updateUser,
-                  text: "Update Data",
-                  colorStart: Colors.purple,
-                  colorEnd: Colors.indigo,
-                ),
+              CustomDropdown(
+                labelText: "Role",
+                value: _selectedRole,
+                items: [
+                  DropdownMenuItem(value: "user", child: Text("User")),
+                  DropdownMenuItem(value: "admin", child: Text("Admin")),
+                ],
+                onChanged: (value) {
+                  setState(() {
+                    _selectedRole = value!;
+                  });
+                },
+              ),
+              SizedBox(height: 30),
+              CustomToggle(
+                label: "Is Verified",
+                value: _isVerified,
+                onChanged: (value) {
+                  setState(() {
+                    _isVerified = value;
+                  });
+                },
+              ),
+              SizedBox(height: 30),
+            _isLoading ? Center(child: CircularProgressIndicator())
+              : GradientButton(
+                onPressed: _updateUser,
+                text: "Update Data",
+                colorStart: Colors.purple,
+                colorEnd: Colors.indigo,
+              ),
             ],
           ),
         ),
