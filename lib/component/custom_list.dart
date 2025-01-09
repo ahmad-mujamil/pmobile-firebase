@@ -3,9 +3,10 @@ import 'package:mob3_jamil_002_uts_xt/view_cerpen.dart';
 
 class CustomListView extends StatelessWidget {
   final List<Map<String, dynamic>> items;  // Accepting dynamic data
+  final bool isVerified;
   
   // Constructor to accept dynamic data
-  CustomListView({required this.items});
+  CustomListView({required this.items, this.isVerified =false});
   
   @override
   Widget build(BuildContext context) {
@@ -27,8 +28,29 @@ class CustomListView extends StatelessWidget {
             ),
             subtitle: Text("Author : Admin"),
             onTap: () { 
-              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ViewCerpen(title: item["title"],content :item["isi_cerpen"])));
-              } ,
+              if(isVerified){
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ViewCerpen(title: item["title"],content :item["isi_cerpen"])));
+              }else{
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("Akses Ditolak"),
+                      content: Text(
+                          "Anda belum terverifikasi. Silakan hubungi admin untuk memverifikasi akun Anda."),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text("OK"),
+                        ),
+                      ],
+                    );
+                  }
+                );
+              }
+            },
             leading: Icon(
               item['icon'],
               color: Colors.blueAccent,
